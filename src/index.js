@@ -3,10 +3,24 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { createBrowserHistory } from "history";
+import { Router } from "react-router";
+import configureStore from "./configureStore";
+import { Provider } from "react-redux";
+
+const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");
+const history = createBrowserHistory({ basename: baseUrl });
+
+// * Get the application-wide store instance, prepopulating with state from the server where available.
+const store = configureStore(history);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
